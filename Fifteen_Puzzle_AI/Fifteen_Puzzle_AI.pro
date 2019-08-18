@@ -24,11 +24,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+QMAKE_CXXFLAGS += -O2
+
 SOURCES += \
+        aithread.cpp \
         main.cpp \
         maingamewindow.cpp
 
 HEADERS += \
+        aithread.h \
+        fifteen_puzzle.h \
         maingamewindow.h
 
 FORMS += \
