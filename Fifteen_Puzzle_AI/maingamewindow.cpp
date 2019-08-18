@@ -183,8 +183,6 @@ pair<int, int> MainGameWindow::whereToMove(int i, int j){
 vector<int> MainGameWindow::generateRandomValues(){
     srand(time(0));
     vector<int> randomNumbers(rows * cols);
-    //randomNumbers.assign({2,3,4,16,1,5,7,8,9,6,10,12,13,14,11,15});
-    //randomNumbers.assign({5,4,10,13,3 ,14 ,12, 1,8,7, 9, 15,16, 6, 11, 2 });
     iota(randomNumbers.begin(), randomNumbers.end(), 1);
     random_shuffle(randomNumbers.begin(), randomNumbers.end());
     return randomNumbers;

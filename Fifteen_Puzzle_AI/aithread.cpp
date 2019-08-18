@@ -37,7 +37,6 @@ void AIThread::run(){
     }else{
         cout<<"Ejecutanto algorithmo"<<endl;
         string movements = generateSolution(puzzleGrid);
-        //string movements = "RUULDRRDRULURULLDRRULLDRRDLDLLURULDRRULDDLUUURDDRDRUULDRD";
         cout<<"Resolviendo"<<endl;
         cout<<movements<<endl;
         int i = 0, j = 0;
