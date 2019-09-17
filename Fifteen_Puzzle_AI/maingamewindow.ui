@@ -20,14 +20,25 @@
      <x>0</x>
      <y>0</y>
      <width>613</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuRestart">
     <property name="title">
      <string>Opciones</string>
     </property>
-    <addaction name="actionReiniciar"/>
+    <widget class="QMenu" name="menuPuzzle">
+     <property name="title">
+      <string>Puzzle</string>
+     </property>
+     <addaction name="actionStandard_2"/>
+     <addaction name="actionCaracol"/>
+     <addaction name="actionRemolino"/>
+     <addaction name="actionZic_Zac"/>
+     <addaction name="actionColumnas"/>
+    </widget>
+    <addaction name="actionResolver_2"/>
+    <addaction name="menuPuzzle"/>
     <addaction name="actionMezclar"/>
     <addaction name="actionSalir"/>
    </widget>
@@ -42,11 +53,6 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionReiniciar">
-   <property name="text">
-    <string>Resolver</string>
-   </property>
-  </action>
   <action name="actionMezclar">
    <property name="text">
     <string>Mezclar</string>
@@ -55,6 +61,59 @@
   <action name="actionSalir">
    <property name="text">
     <string>Salir</string>
+   </property>
+  </action>
+  <action name="actionStandard">
+   <property name="text">
+    <string>Standard</string>
+   </property>
+  </action>
+  <action name="actionResolver_2">
+   <property name="text">
+    <string>Resolver</string>
+   </property>
+  </action>
+  <action name="actionStandard_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Standard</string>
+   </property>
+  </action>
+  <action name="actionCaracol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Caracol</string>
+   </property>
+  </action>
+  <action name="actionRemolino">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Remolino</string>
+   </property>
+  </action>
+  <action name="actionZic_Zac">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Zic-Zac</string>
+   </property>
+  </action>
+  <action name="actionColumnas">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Columnas</string>
    </property>
   </action>
  </widget>

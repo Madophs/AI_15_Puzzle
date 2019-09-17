@@ -24,6 +24,10 @@ void AIThread::setShuffle(bool shuffle){
     this->shuffle = shuffle;
 }
 
+void AIThread::setPuzzleId(int puzzleId){
+    this->puzzleId = puzzleId;
+}
+
 void AIThread::run(){
     if(shuffle){
         cout<<"Mezclando"<<endl;
@@ -36,7 +40,7 @@ void AIThread::run(){
         }
     }else{
         cout<<"Ejecutanto algorithmo"<<endl;
-        string movements = generateSolution(puzzleGrid);
+        string movements = generateSolution(puzzleGrid, puzzleId);
         cout<<"Resolviendo"<<endl;
         cout<<movements<<endl;
         int i = 0, j = 0;
@@ -52,17 +56,13 @@ void AIThread::run(){
         for(int x = 0; x < movements.length(); x++){
             msleep(300);
             if(movements[x] == 'U'){
-                emit emitClick(i-1, j);
-                --i;
+                emit emitClick(--i, j);
             }else if(movements[x] == 'D'){
-                emit emitClick(i+1,j);
-                ++i;
+                emit emitClick(++i,j);
             }else if(movements[x] == 'L'){
-                emit emitClick(i, j-1);
-                --j;
+                emit emitClick(i, --j);
             }else{
-                emit emitClick(i, j+1);
-                ++j;
+                emit emitClick(i, ++j);
             }
         }
         if(movements.empty()){

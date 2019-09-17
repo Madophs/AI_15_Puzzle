@@ -8,9 +8,19 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     ui(new Ui::MainGameWindow)
 {
     ui->setupUi(this);
-    QObject::connect(ui->actionReiniciar, SIGNAL(triggered()), this, SLOT(startAI()));
+    QObject::connect(ui->actionResolver_2, SIGNAL(triggered()), this, SLOT(startAI()));
     QObject::connect(ui->actionMezclar, SIGNAL(triggered()), this, SLOT(shuffleButtons()));
     QObject::connect(ui->actionSalir, SIGNAL(triggered()),this,SLOT(exitProgram()));
+    QObject::connect(ui->actionStandard_2, SIGNAL(triggered()), this, SLOT(changePuzzleId()));
+    QObject::connect(ui->actionCaracol, SIGNAL(triggered()), this, SLOT(changePuzzleId()));
+    QObject::connect(ui->actionColumnas, SIGNAL(triggered()), this, SLOT(changePuzzleId()));
+    QObject::connect(ui->actionRemolino, SIGNAL(triggered()), this, SLOT(changePuzzleId()));
+    QObject::connect(ui->actionZic_Zac, SIGNAL(triggered()), this, SLOT(changePuzzleId()));
+    puzzlesCheckbox.emplace_back(ui->actionStandard_2);
+    puzzlesCheckbox.emplace_back(ui->actionCaracol);
+    puzzlesCheckbox.emplace_back(ui->actionColumnas);
+    puzzlesCheckbox.emplace_back(ui->actionRemolino);
+    puzzlesCheckbox.emplace_back(ui->actionZic_Zac);
 }
 
 MainGameWindow::~MainGameWindow()
@@ -18,7 +28,7 @@ MainGameWindow::~MainGameWindow()
     delete ui;
 }
 
-/* Public functions ans methods */
+/* Public functions and methods */
 
 bool MainGameWindow::solvable(vector<int> puzzle){
     int inversions = 0, emptyCellLocation = 0;
@@ -56,8 +66,11 @@ void MainGameWindow::addButtonsToGridLayout(){
         for(unint j = 0; j < cols; j++){
             QPushButton *tmpButton = new QPushButton(this);
             tmpButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            tmpButton->setText(static_cast<QString>(to_string(randomNumbers[buttonId++]).c_str()));
+            tmpButton->setText(static_cast<QString>(to_string(randomNumbers[buttonId]).c_str()));
             tmpButton->setFont(mdsFont);
+            tmpButton->setAutoFillBackground(true);
+            tmpButton->setPalette(getCorrespondentPalette(randomNumbers[buttonId++], tmpButton));
+            tmpButton->update();
             if(randomNumbers[buttonId-1] == rows*cols){
                 initialHiddenButtonIndexes = {i,j};
             }
@@ -148,21 +161,28 @@ void MainGameWindow::startAI(){
             aiThread->start();
         }
     }else{
-        aiThread = new AIThread(this);
+        initializeAIThread();
         aiThread->setPuzzleGridLayout(buttons);
-        connect(aiThread, &AIThread::emitClick,[&](int i, int j){
-           buttons[i][j]->click();
-           cout<<i<<" "<<j<<endl;
-        });
-        connect(aiThread, &AIThread::showMessage,[&](QString message, QString title){
-            QMessageBox msg;
-            msg.setWindowTitle(title);
-            msg.setText(message);
-            msg.exec();
-        });
         aiThread->setShuffle(false);
         aiThread->start();
     }
+}
+
+void MainGameWindow::changePuzzleId(){
+    initializeAIThread();
+    QString senderName = static_cast<QAction*>(sender())->text();
+    if(senderName == "Standard"){
+        aiThread->setPuzzleId(1);
+    }else if(senderName == "Caracol"){
+        aiThread->setPuzzleId(2);
+    }else if(senderName == "Columnas"){
+        aiThread->setPuzzleId(3);
+    }else if(senderName == "Remolino"){
+        aiThread->setPuzzleId(4);
+    }else if(senderName == "Zic-Zac"){
+        aiThread->setPuzzleId(5);
+    }
+    togglePuzzleCheckbox(senderName);
 }
 
 /* private function and methods */
@@ -188,3 +208,39 @@ vector<int> MainGameWindow::generateRandomValues(){
     return randomNumbers;
 }
 
+QPalette MainGameWindow::getCorrespondentPalette(int buttonId, QPushButton *&button){
+    QPalette buttonPalette = button->palette();
+    if(buttonId >= 1 && buttonId <= 4){
+        buttonPalette.setColor(QPalette::Button,QColor(0,0,170));
+    }else if(buttonId >= 5 && buttonId <= 8){
+        buttonPalette.setColor(QPalette::Button, QColor(170, 170,0));
+    }else if(buttonId >= 9 && buttonId <= 12){
+        buttonPalette.setColor(QPalette::Button, QColor(170,0,0));
+    }else{
+        buttonPalette.setColor(QPalette::Button, QColor(0,170,0));
+    }
+    return buttonPalette;
+}
+
+void MainGameWindow::initializeAIThread(){
+    if(aiThread == nullptr){
+        aiThread = new AIThread(this);
+        connect(aiThread, &AIThread::emitClick,[&](int i, int j){
+           buttons[i][j]->click();
+           cout<<i<<" "<<j<<endl;
+        });
+        connect(aiThread, &AIThread::showMessage,[&](QString message, QString title){
+            QMessageBox msg;
+            msg.setWindowTitle(title);
+            msg.setText(message);
+            msg.exec();
+        });
+    }
+}
+
+void MainGameWindow::togglePuzzleCheckbox(QString text){
+    for(auto checkbox : puzzlesCheckbox){
+        if(checkbox->text() != text)
+            checkbox->setChecked(false);
+    }
+}

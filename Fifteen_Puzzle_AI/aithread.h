@@ -15,6 +15,7 @@ public:
     explicit AIThread(QObject *parent = nullptr);
     void setPuzzleGridLayout(vector<vector<QPushButton*>>);
     void setShuffle(bool);
+    void setPuzzleId(int);
 signals:  
     void emitClick(int, int);
     void showMessage(QString, QString);
@@ -25,6 +26,7 @@ protected:
 private:
    vector<vector<int>> puzzleGrid;
    bool shuffle{false};
+   int puzzleId{1};
 };
 
 #endif // AITHREAD_H

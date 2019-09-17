@@ -43,18 +43,23 @@ public slots:
     vector<vector<QPushButton*>> &getButtons();
     void startAI();
     void exitProgram();
+    void changePuzzleId();
 private:
     Ui::MainGameWindow *ui;
     AIThread *aiThread{nullptr};
     QGridLayout *layout;
     QPropertyAnimation *visibleButtonAnimation{nullptr}, *nonVisibleButtonAnimation{nullptr};
     vector<vector<QPushButton*>> buttons;
+    vector<QAction*> puzzlesCheckbox;
     pair<int,int> initialHiddenButtonIndexes{0,0};
     unordered_map<string, pair<unint, unint>> hashTable;
     unint rows{4}, cols{4};
     int animationDuration{70};
     pair<int, int> whereToMove(int i, int j);
     vector<int> generateRandomValues();
+    QPalette getCorrespondentPalette(int, QPushButton *&);
+    void initializeAIThread();
+    void togglePuzzleCheckbox(QString);
 };
 
 #endif // MAINGAMEWINDOW_H
