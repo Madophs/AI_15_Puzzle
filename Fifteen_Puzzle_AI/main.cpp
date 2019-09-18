@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     MainGameWindow w;
     w.setWindowTitle("Inteligencia Artificial");
     w.addButtonsToGridLayout();
+    w.setFixedSize(650, 650);
     w.show();
     w.hideEmptyButton();
     return a.exec();

@@ -39,9 +39,10 @@ void AIThread::run(){
             msleep(30);
         }
     }else{
-        cout<<"Ejecutanto algorithmo"<<endl;
+        cout<<"Ejecutando algoritmo"<<endl;
         string movements = generateSolution(puzzleGrid, puzzleId);
-        cout<<"Resolviendo"<<endl;
+        if(!movements.empty())
+            cout<<"Resolviendo..."<<endl;
         cout<<movements<<endl;
         int i = 0, j = 0;
         bool emptyCellFound = false;
@@ -65,11 +66,14 @@ void AIThread::run(){
                 emit emitClick(i, ++j);
             }
         }
-        if(movements.empty()){
+        if(movements.empty() && !alreadySolved){
             emit showMessage("No se pudo encontrar la solución", "Madophs AI");
-        }else{
+        }else if(!movements.empty()){
             emit showMessage("15 Puzzle ha sido resuelto!!!","Madophs AI");
+        }else{
+            emit showMessage("15 Puzzle ya ha sido resuelto!!!","Madophs AI");
         }
+        alreadySolved = false;
     }
     shuffle = false;
 }

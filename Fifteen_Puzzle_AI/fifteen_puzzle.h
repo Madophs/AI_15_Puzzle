@@ -17,6 +17,7 @@ vector<int> solvedPuzzle;
 unordered_map<unsigned long long, int> state;
 unordered_map<int,int> solution;
 string generatedSolution = "";
+bool alreadySolved = false;
 
 void initializePuzzleSolved(int puzzleId){
     if(puzzleId == 1){
@@ -160,6 +161,10 @@ string generateSolution(vector<vector<int>> grid, int puzzleId){
                 emptyCell = i*4+j;
             }
         }
+    }
+    if(solved()){
+        alreadySolved = true;
+        return "";
     }
     ans = idaStar();
     instructions(ans);
